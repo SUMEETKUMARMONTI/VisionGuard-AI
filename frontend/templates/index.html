@@ -1,0 +1,2856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crowd Detection Using AI — Live Monitor</title>
+<link rel="stylesheet" href="/static/fonts.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+
+/*═══════════════════════════════════════════════
+    COLOR SYSTEM
+═══════════════════════════════════════════════*/
+
+--bg:#050816;
+--bg-secondary:#0A1023;
+--bg-tertiary:#10172D;
+--surface:#121B33;
+--surface-light:#182544;
+--surface-hover:#1D2C4F;
+
+--glass:rgba(20,30,55,.72);
+--glass-light:rgba(255,255,255,.04);
+
+--card:#131E36;
+--card-2:#172440;
+--card-border:rgba(255,255,255,.08);
+
+--text:#F8FAFF;
+--text-secondary:#D5DEED;
+--text-muted:#97A5BF;
+--text-fade:#6F7C95;
+
+
+/*═══════════════════════════════════════════════
+    BRAND COLORS
+═══════════════════════════════════════════════*/
+
+--brand:#3B82F6;
+--brand-dark:#2563EB;
+--brand-light:#60A5FA;
+--brand-soft:rgba(59,130,246,.12);
+--brand-border:rgba(59,130,246,.28);
+
+--cyan:#00E5FF;
+--cyan-soft:rgba(0,229,255,.12);
+
+--violet:#7C5CFC;
+--violet-soft:rgba(124,92,252,.12);
+
+--purple:#8B5CF6;
+
+
+/*═══════════════════════════════════════════════
+    STATUS COLORS
+═══════════════════════════════════════════════*/
+
+--success:#22C55E;
+--success-soft:rgba(34,197,94,.12);
+
+--warning:#F59E0B;
+--warning-soft:rgba(245,158,11,.12);
+
+--danger:#EF4444;
+--danger-soft:rgba(239,68,68,.12);
+
+--info:#38BDF8;
+--info-soft:rgba(56,189,248,.12);
+
+
+/*═══════════════════════════════════════════════
+    AI DETECTION COLORS
+═══════════════════════════════════════════════*/
+
+--person:#00E676;
+--vehicle:#FF9800;
+--object:#4FC3F7;
+--animal:#FF5DB1;
+--tracking:#7C4DFF;
+
+--scan-color:var(--cyan);
+
+
+/*═══════════════════════════════════════════════
+    SHADOWS
+═══════════════════════════════════════════════*/
+
+--shadow-xs:
+0 2px 8px rgba(0,0,0,.20);
+
+--shadow-sm:
+0 8px 20px rgba(0,0,0,.28);
+
+--shadow-md:
+0 18px 45px rgba(0,0,0,.36);
+
+--shadow-lg:
+0 30px 70px rgba(0,0,0,.45);
+
+--shadow-brand:
+0 0 40px rgba(59,130,246,.28);
+
+--shadow-success:
+0 0 35px rgba(34,197,94,.28);
+
+--shadow-danger:
+0 0 45px rgba(239,68,68,.30);
+
+
+/*═══════════════════════════════════════════════
+    GLASS EFFECTS
+═══════════════════════════════════════════════*/
+
+--blur:18px;
+
+--glass-border:
+1px solid rgba(255,255,255,.08);
+
+--glass-highlight:
+inset 0 1px rgba(255,255,255,.05);
+
+
+/*═══════════════════════════════════════════════
+    BORDER RADIUS
+═══════════════════════════════════════════════*/
+
+--r-xs:8px;
+--r-sm:12px;
+--r-md:18px;
+--r-lg:24px;
+--r-xl:30px;
+--r-pill:999px;
+
+
+/*═══════════════════════════════════════════════
+    TYPOGRAPHY
+═══════════════════════════════════════════════*/
+
+--font-display:
+"Space Grotesk",sans-serif;
+
+--font-body:
+"Inter",sans-serif;
+
+--font-mono:
+"JetBrains Mono",monospace;
+
+
+/*═══════════════════════════════════════════════
+    FONT WEIGHTS
+═══════════════════════════════════════════════*/
+
+--fw-regular:400;
+--fw-medium:500;
+--fw-semibold:600;
+--fw-bold:700;
+
+
+/*═══════════════════════════════════════════════
+    TRANSITIONS
+═══════════════════════════════════════════════*/
+
+--fast:.18s cubic-bezier(.4,0,.2,1);
+
+--normal:.35s cubic-bezier(.4,0,.2,1);
+
+--slow:.55s cubic-bezier(.4,0,.2,1);
+
+
+/*═══════════════════════════════════════════════
+    GRADIENTS
+═══════════════════════════════════════════════*/
+
+--gradient-brand:
+linear-gradient(
+135deg,
+#3B82F6 0%,
+#2563EB 45%,
+#7C5CFC 100%
+);
+
+--gradient-success:
+linear-gradient(
+135deg,
+#22C55E,
+#16A34A
+);
+
+--gradient-danger:
+linear-gradient(
+135deg,
+#EF4444,
+#DC2626
+);
+
+--gradient-card:
+linear-gradient(
+180deg,
+rgba(255,255,255,.04),
+rgba(255,255,255,.01)
+);
+
+--gradient-bg:
+radial-gradient(circle at top right,#214DFF22 0%,transparent 40%),
+radial-gradient(circle at bottom left,#00E5FF18 0%,transparent 35%),
+linear-gradient(135deg,#050816,#0B1226 55%,#111C35);
+
+
+/*═══════════════════════════════════════════════
+    Z INDEX
+═══════════════════════════════════════════════*/
+
+--z-nav:100;
+--z-dropdown:300;
+--z-toast:999;
+--z-modal:2000;
+
+}
+
+/*═══════════════════════════════════════════════
+                    GLOBAL
+═══════════════════════════════════════════════*/
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+
+    font-family:var(--font-body);
+
+    background:var(--gradient-bg);
+
+    color:var(--text);
+
+    min-height:100vh;
+
+    overflow:hidden;
+
+    font-size:14px;
+
+    line-height:1.6;
+
+    letter-spacing:.02em;
+
+    -webkit-font-smoothing:antialiased;
+
+    -moz-osx-font-smoothing:grayscale;
+
+    position:relative;
+
+}
+
+
+/* Animated background glow */
+
+body::before{
+
+    content:"";
+
+    position:fixed;
+
+    inset:-20%;
+
+    background:
+
+    radial-gradient(circle at 20% 25%,
+    rgba(59,130,246,.18),
+    transparent 35%),
+
+    radial-gradient(circle at 85% 20%,
+    rgba(0,229,255,.12),
+    transparent 28%),
+
+    radial-gradient(circle at 60% 80%,
+    rgba(124,92,252,.12),
+    transparent 30%);
+
+    filter:blur(60px);
+
+    animation:ambientGlow 18s ease-in-out infinite alternate;
+
+    pointer-events:none;
+
+    z-index:-2;
+
+}
+
+@keyframes ambientGlow{
+
+    from{
+
+        transform:
+        translateY(0)
+        rotate(0deg)
+        scale(1);
+
+    }
+
+    to{
+
+        transform:
+        translateY(-40px)
+        rotate(8deg)
+        scale(1.08);
+
+    }
+
+}
+
+button{
+
+    font-family:inherit;
+
+    color:inherit;
+
+    transition:var(--fast);
+
+}
+
+
+
+/*═══════════════════════════════════════════════
+                TOP NAVBAR
+═══════════════════════════════════════════════*/
+
+.nav{
+
+    position:sticky;
+
+    top:0;
+
+    z-index:var(--z-nav);
+
+    height:78px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:0 34px;
+
+    backdrop-filter:blur(var(--blur));
+
+    -webkit-backdrop-filter:blur(var(--blur));
+
+    background:rgba(8,13,28,.82);
+
+    border-bottom:1px solid rgba(255,255,255,.06);
+
+    box-shadow:
+
+        0 12px 30px rgba(0,0,0,.28),
+
+        inset 0 -1px rgba(255,255,255,.05);
+
+}
+
+
+
+/*═══════════════════════════════════════════════
+                    BRAND
+═══════════════════════════════════════════════*/
+
+.nav-logo{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+}
+
+
+
+.logo-box{
+
+    width:54px;
+
+    height:54px;
+
+    border-radius:18px;
+
+    background:var(--gradient-brand);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-family:var(--font-display);
+
+    font-weight:700;
+
+    font-size:17px;
+
+    color:white;
+
+    box-shadow:
+
+        var(--shadow-brand),
+
+        inset 0 1px rgba(255,255,255,.25);
+
+    position:relative;
+
+    overflow:hidden;
+
+    transition:var(--normal);
+
+}
+
+.logo-box::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:-120%;
+
+    background:
+
+    linear-gradient(
+
+        120deg,
+
+        transparent,
+
+        rgba(255,255,255,.45),
+
+        transparent
+
+    );
+
+    transform:rotate(25deg);
+
+    animation:logoShine 5s linear infinite;
+
+}
+
+@keyframes logoShine{
+
+    from{
+
+        transform:
+        translateX(-220%)
+        rotate(25deg);
+
+    }
+
+    to{
+
+        transform:
+        translateX(260%)
+        rotate(25deg);
+
+    }
+
+}
+
+.logo-box:hover{
+
+    transform:
+
+    translateY(-3px)
+
+    rotate(-3deg)
+
+    scale(1.05);
+
+}
+
+
+
+.nav-name{
+
+    font-family:var(--font-display);
+
+    font-size:22px;
+
+    font-weight:700;
+
+    color:var(--text);
+
+    letter-spacing:-.04em;
+
+    text-shadow:
+
+        0 0 20px rgba(59,130,246,.25);
+
+}
+
+.nav-sub{
+
+    margin-top:3px;
+
+    color:var(--text-muted);
+
+    font-size:12px;
+
+    letter-spacing:.16em;
+
+    text-transform:uppercase;
+
+}
+
+
+
+/*═══════════════════════════════════════════════
+                RIGHT SIDE
+═══════════════════════════════════════════════*/
+
+.nav-right{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+}
+
+
+
+/*═══════════════════════════════════════════════
+                    CLOCK
+═══════════════════════════════════════════════*/
+
+.clock{
+
+    padding:11px 18px;
+
+    border-radius:999px;
+
+    font-family:var(--font-mono);
+
+    font-size:13px;
+
+    font-weight:600;
+
+    color:var(--cyan);
+
+    background:rgba(255,255,255,.04);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    backdrop-filter:blur(16px);
+
+    letter-spacing:.08em;
+
+    box-shadow:
+
+        inset 0 1px rgba(255,255,255,.05),
+
+        0 0 20px rgba(0,229,255,.08);
+
+}
+
+
+
+/*═══════════════════════════════════════════════
+                LIVE BADGE
+═══════════════════════════════════════════════*/
+
+.badge{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    padding:10px 18px;
+
+    border-radius:999px;
+
+    font-size:11px;
+
+    font-weight:700;
+
+    text-transform:uppercase;
+
+    letter-spacing:.14em;
+
+    border:1px solid rgba(255,255,255,.08);
+
+    background:rgba(255,255,255,.04);
+
+    color:var(--text-muted);
+
+    backdrop-filter:blur(16px);
+
+}
+
+
+
+.badge.live{
+
+    color:var(--success);
+
+    background:rgba(34,197,94,.12);
+
+    border-color:rgba(34,197,94,.35);
+
+    box-shadow:
+
+        0 0 24px rgba(34,197,94,.25);
+
+}
+
+
+
+.badge-dot{
+
+    width:10px;
+
+    height:10px;
+
+    border-radius:50%;
+
+    background:currentColor;
+
+    position:relative;
+
+}
+
+
+
+.badge-dot::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:-6px;
+
+    border-radius:50%;
+
+    border:2px solid currentColor;
+
+    opacity:.45;
+
+    animation:livePulse 1.8s infinite;
+
+}
+
+
+
+@keyframes livePulse{
+
+    0%{
+
+        transform:scale(.5);
+
+        opacity:1;
+
+    }
+
+    100%{
+
+        transform:scale(2.6);
+
+        opacity:0;
+
+    }
+
+}
+
+
+
+/*═══════════════════════════════════════════════
+            NAV HOVER EFFECTS
+═══════════════════════════════════════════════*/
+
+.clock:hover,
+
+.badge:hover{
+
+    transform:translateY(-2px);
+
+    transition:var(--fast);
+
+}
+
+.logo-box:hover{
+
+    box-shadow:
+
+        0 0 50px rgba(59,130,246,.45);
+
+}
+
+/*═══════════════════════════════════════════════
+                MAIN LAYOUT
+═══════════════════════════════════════════════*/
+
+.layout{
+
+    display:grid;
+
+    grid-template-columns:
+        320px
+        minmax(0,1fr)
+        340px;
+
+    gap:22px;
+
+    height:calc(100vh - 78px);
+
+    padding:22px;
+
+    overflow:hidden;
+
+    position:relative;
+
+}
+
+
+
+/* Floating background glow */
+
+.layout::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    pointer-events:none;
+
+    background:
+
+        radial-gradient(
+            circle at 18% 18%,
+            rgba(59,130,246,.08),
+            transparent 28%
+        ),
+
+        radial-gradient(
+            circle at 82% 78%,
+            rgba(0,229,255,.06),
+            transparent 26%
+        ),
+
+        radial-gradient(
+            circle at 50% 50%,
+            rgba(124,92,252,.05),
+            transparent 42%
+        );
+
+    z-index:-1;
+
+}
+
+
+
+/*═══════════════════════════════════════════════
+                RESPONSIVE
+═══════════════════════════════════════════════*/
+
+@media (max-width:1600px){
+
+    .layout{
+
+        grid-template-columns:
+            300px
+            minmax(0,1fr)
+            300px;
+
+    }
+
+}
+
+@media (max-width:1300px){
+
+    .layout{
+
+        grid-template-columns:
+            280px
+            minmax(0,1fr);
+
+    }
+
+    .right{
+
+        display:none;
+
+    }
+
+}
+
+@media (max-width:992px){
+
+    .layout{
+
+        display:flex;
+
+        flex-direction:column;
+
+        height:auto;
+
+        gap:18px;
+
+        padding:18px;
+
+    }
+
+}
+
+/*═══════════════════════════════════════════════
+                AI CONTROL PANEL
+═══════════════════════════════════════════════*/
+
+.sidebar{
+
+    position:relative;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:40px;
+
+    overflow-y:auto;
+
+    overflow-x:hidden;
+
+    padding:28px;
+
+    border-radius:28px;
+
+    background:var(--glass);
+
+    backdrop-filter:blur(var(--blur));
+    -webkit-backdrop-filter:blur(var(--blur));
+
+    border:var(--glass-border);
+
+    box-shadow:
+        var(--shadow-md),
+        inset 0 1px rgba(255,255,255,.06);
+
+    transition:var(--normal);
+
+}
+
+
+
+/* Decorative Glow */
+
+.sidebar::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:-120px;
+    left:-120px;
+
+    width:260px;
+    height:260px;
+
+    border-radius:50%;
+
+    background:
+
+        radial-gradient(
+            circle,
+            rgba(59,130,246,.18),
+            transparent 70%
+        );
+
+    pointer-events:none;
+
+}
+
+.sidebar::after{
+
+    content:"";
+
+    position:absolute;
+
+    bottom:-120px;
+    right:-120px;
+
+    width:220px;
+    height:220px;
+
+    border-radius:50%;
+
+    background:
+
+        radial-gradient(
+            circle,
+            rgba(0,229,255,.12),
+            transparent 70%
+        );
+
+    pointer-events:none;
+
+}
+
+
+
+/* Scrollbar */
+
+.sidebar::-webkit-scrollbar{
+
+    width:7px;
+
+}
+
+.sidebar::-webkit-scrollbar-track{
+
+    background:transparent;
+
+}
+
+.sidebar::-webkit-scrollbar-thumb{
+
+    background:rgba(255,255,255,.12);
+
+    border-radius:999px;
+
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover{
+
+    background:rgba(59,130,246,.45);
+
+}
+
+
+
+/*═══════════════════════════════════════════════
+                SECTION HEADINGS
+═══════════════════════════════════════════════*/
+
+.sec-title{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    margin-bottom:14px;
+
+    font-family:var(--font-display);
+
+    font-size:11px;
+
+    font-weight:700;
+
+    text-transform:uppercase;
+
+    letter-spacing:.22em;
+
+    color:var(--cyan);
+
+    position:relative;
+
+}
+
+
+
+/* Accent line */
+
+.sec-title::before{
+
+    content:"";
+
+    width:5px;
+
+    height:18px;
+
+    border-radius:999px;
+
+    background:var(--gradient-brand);
+
+    box-shadow:
+
+        0 0 14px rgba(59,130,246,.45);
+
+}
+
+
+
+/* Divider */
+
+.sec-title::after{
+
+    content:"";
+
+    flex:1;
+
+    height:1px;
+
+    margin-left:10px;
+
+    background:
+
+        linear-gradient(
+            to right,
+            rgba(59,130,246,.28),
+            transparent
+        );
+
+}
+
+
+
+/* Section spacing */
+
+.sidebar > div{
+
+    position:relative;
+
+    margin-bottom:12px;
+
+
+    z-index:2;
+
+}
+
+
+
+/* Hover lift */
+
+.sidebar:hover{
+
+    box-shadow:
+
+        0 25px 70px rgba(0,0,0,.42),
+
+        0 0 40px rgba(59,130,246,.08);
+
+}
+
+/*══════════════════════════════════════════════════════
+                    AI DROPDOWN
+══════════════════════════════════════════════════════*/
+
+.dropdown{
+
+    position:relative;
+
+    margin-bottom:20px;
+
+}
+
+
+/*══════════════════════════════════════════════════════
+                MAIN DROPDOWN BUTTON
+══════════════════════════════════════════════════════*/
+
+.dropdown-trigger{
+
+    width:100%;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:16px;
+
+    padding:16px 18px;
+
+    border-radius:20px;
+
+    cursor:pointer;
+
+    text-align:left;
+
+    background:var(--gradient-card);
+
+    backdrop-filter:blur(18px);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    color:var(--text);
+
+    transition:all .35s ease;
+
+    position:relative;
+
+    overflow:hidden;
+
+    box-shadow:
+
+        inset 0 1px rgba(255,255,255,.05),
+
+        0 10px 24px rgba(0,0,0,.20);
+
+}
+
+
+/* Moving Glow */
+
+.dropdown-trigger::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:-120%;
+
+    background:
+
+    linear-gradient(
+
+        120deg,
+
+        transparent,
+
+        rgba(255,255,255,.08),
+
+        transparent
+
+    );
+
+    transform:rotate(25deg);
+
+    transition:.8s;
+
+}
+
+.dropdown-trigger:hover::before{
+
+    left:150%;
+
+}
+
+
+
+/* Hover */
+
+.dropdown-trigger:hover{
+
+    transform:translateY(-3px);
+
+    border-color:rgba(59,130,246,.45);
+
+    box-shadow:
+
+        0 18px 40px rgba(0,0,0,.30),
+
+        0 0 28px rgba(59,130,246,.15);
+
+}
+
+
+
+/* Active */
+
+.dropdown.open .dropdown-trigger{
+
+    border-color:var(--brand);
+
+    box-shadow:
+
+        0 0 0 2px rgba(59,130,246,.18),
+
+        0 0 30px rgba(59,130,246,.25);
+
+}
+
+
+
+/* Focus */
+
+.dropdown-trigger:focus-visible{
+
+    outline:none;
+
+}
+
+
+
+/*══════════════════════════════════════════════════════
+                    ICON
+══════════════════════════════════════════════════════*/
+
+.dd-icon-box{
+
+    width:52px;
+
+    height:52px;
+
+    border-radius:16px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    flex-shrink:0;
+
+    background:rgba(255,255,255,.05);
+
+    border:1px solid rgba(255,255,255,.06);
+
+    transition:.35s;
+
+}
+
+
+
+.dropdown-trigger:hover .dd-icon-box{
+
+    transform:rotate(-6deg) scale(1.08);
+
+}
+
+
+
+/* Theme Colors */
+
+.dd-icon-box.tone-blue{
+
+    background:rgba(59,130,246,.12);
+
+    color:#60A5FA;
+
+}
+
+.dd-icon-box.tone-green{
+
+    background:rgba(34,197,94,.12);
+
+    color:#22C55E;
+
+}
+
+.dd-icon-box.tone-red{
+
+    background:rgba(239,68,68,.12);
+
+    color:#EF4444;
+
+}
+
+.dd-icon-box.tone-violet{
+
+    background:rgba(124,92,252,.12);
+
+    color:#A78BFA;
+
+}
+
+
+
+/*══════════════════════════════════════════════════════
+                    TEXT
+══════════════════════════════════════════════════════*/
+
+.dd-trigger-text{
+
+    flex:1;
+
+    overflow:hidden;
+
+}
+
+
+
+.dd-trigger-label{
+
+    display:block;
+
+    font-family:var(--font-display);
+
+    font-size:15px;
+
+    font-weight:700;
+
+    color:var(--text);
+
+}
+
+
+
+.dd-trigger-sub{
+
+    display:block;
+
+    margin-top:5px;
+
+    font-size:12px;
+
+    color:var(--text-muted);
+
+    white-space:nowrap;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+
+}
+
+
+
+/*══════════════════════════════════════════════════════
+                CHEVRON
+══════════════════════════════════════════════════════*/
+
+.dd-chevron{
+
+    display:flex;
+
+    align-items:center;
+
+    color:var(--cyan);
+
+    transition:.35s;
+
+}
+
+
+
+.dropdown.open .dd-chevron{
+
+    transform:rotate(180deg);
+
+}
+
+
+
+/*══════════════════════════════════════════════════════
+                DROPDOWN PANEL
+══════════════════════════════════════════════════════*/
+
+.dropdown-panel{
+
+    position:relative;
+
+    margin-top:12px;
+
+    width:100%;
+
+    max-height:0;
+
+    overflow:hidden;
+
+    opacity:0;
+
+    transform:translateY(-8px);
+
+    transition:
+
+        max-height .35s ease,
+
+        opacity .25s ease,
+
+        transform .25s ease;
+
+}
+
+
+
+.dropdown.open .dropdown-panel{
+
+    max-height:450px;
+
+    opacity:1;
+
+    transform:translateY(0);
+
+}
+
+
+/*══════════════════════════════════════════════════════
+                OPTIONS
+══════════════════════════════════════════════════════*/
+
+.dd-option{
+
+    width:100%;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:16px;
+
+    padding:10px 12px;
+
+    border:none;
+
+    border-radius:16px;
+
+    background:transparent;
+
+    cursor:pointer;
+
+    transition:.30s;
+
+    text-align:left;
+
+    color:var(--text);
+
+}
+
+
+
+.dd-option:not(:last-child){
+
+    margin-bottom:8px;
+
+}
+
+
+
+.dd-option:hover{
+
+    background:rgba(255,255,255,.05);
+
+    transform:translateX(5px);
+
+}
+
+
+
+.dd-option.active{
+
+    background:
+
+        linear-gradient(
+
+            90deg,
+
+            rgba(59,130,246,.16),
+
+            rgba(124,92,252,.10)
+
+        );
+
+    border:1px solid rgba(59,130,246,.22);
+
+}
+
+
+
+/* Icon */
+.dd-option .dd-icon-box{
+
+    width:40px;
+
+    height:40px;
+
+}
+
+
+/* Text */
+
+.dd-opt-text{
+
+    flex:1;
+
+}
+
+
+
+.dd-opt-n{
+
+    display:block;
+
+    font-family:var(--font-display);
+
+    font-size:14px;
+
+    font-weight:700;
+
+    color:var(--text);
+
+}
+
+
+
+.dd-opt-d{
+
+    display:block;
+
+    margin-top:4px;
+
+    color:var(--text-muted);
+
+    font-size:12px;
+
+    line-height:1.5;
+
+}
+
+
+
+/*══════════════════════════════════════════════════════
+                CHECK ICON
+══════════════════════════════════════════════════════*/
+
+.dd-check{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    color:#22C55E;
+
+    opacity:0;
+
+    transform:scale(.6);
+
+    transition:.30s;
+
+}
+
+
+
+.dd-option.active .dd-check{
+
+    opacity:1;
+
+    transform:scale(1);
+
+}
+
+/*═══════════════════════════════════════════════
+                    BUTTONS
+═══════════════════════════════════════════════*/
+
+.btn{
+
+    position:relative;
+
+    width:100%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:12px;
+
+    padding:16px 18px;
+
+    margin-bottom:14px;
+
+    border-radius:18px;
+
+    border:1px solid rgba(255,255,255,.08);
+
+    cursor:pointer;
+
+    overflow:hidden;
+
+    font-size:14px;
+
+    font-weight:700;
+
+    font-family:var(--font-display);
+
+    letter-spacing:.03em;
+
+    transition:all .35s ease;
+
+    backdrop-filter:blur(16px);
+
+    -webkit-backdrop-filter:blur(16px);
+
+    user-select:none;
+
+}
+
+
+
+/* Shine Animation */
+
+.btn::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:-120%;
+
+    background:
+
+        linear-gradient(
+
+            120deg,
+
+            transparent,
+
+            rgba(255,255,255,.18),
+
+            transparent
+
+        );
+
+    transform:rotate(25deg);
+
+    transition:.8s;
+
+}
+
+
+
+.btn:hover::before{
+
+    left:160%;
+
+}
+
+
+
+/* Hover */
+
+.btn:hover:not(:disabled){
+
+    transform:
+
+        translateY(-4px)
+
+        scale(1.02);
+
+}
+
+
+
+/* Press */
+
+.btn:active:not(:disabled){
+
+    transform:
+
+        scale(.97);
+
+}
+
+
+
+/* Icons */
+
+.btn svg{
+
+    flex-shrink:0;
+
+    transition:.35s;
+
+}
+
+
+
+.btn:hover svg{
+
+    transform:scale(1.15);
+
+}
+
+
+
+/* Focus */
+
+.btn:focus-visible{
+
+    outline:none;
+
+    box-shadow:
+
+        0 0 0 3px rgba(59,130,246,.22);
+
+}
+
+
+
+/* Disabled */
+
+.btn:disabled{
+
+    opacity:.45;
+
+    cursor:not-allowed;
+
+    transform:none;
+
+    filter:grayscale(.25);
+
+}
+
+
+
+/*═══════════════════════════════════════════════
+                START BUTTON
+═══════════════════════════════════════════════*/
+
+.btn-start{
+
+    color:white;
+
+    background:var(--gradient-brand);
+
+    border:1px solid rgba(59,130,246,.45);
+
+    box-shadow:
+
+        0 12px 30px rgba(37,99,235,.30),
+
+        inset 0 1px rgba(255,255,255,.18);
+
+}
+
+
+
+.btn-start:hover:not(:disabled){
+
+    box-shadow:
+
+        0 18px 45px rgba(37,99,235,.42),
+
+        0 0 35px rgba(59,130,246,.28);
+
+}
+
+
+
+/*═══════════════════════════════════════════════
+                SCREENSHOT
+═══════════════════════════════════════════════*/
+
+.btn-shot{
+
+    color:var(--text);
+
+    background:rgba(255,255,255,.04);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    box-shadow:
+
+        inset 0 1px rgba(255,255,255,.05);
+
+}
+
+
+
+.btn-shot:hover:not(:disabled){
+
+    background:
+
+        rgba(255,255,255,.08);
+
+    border-color:
+
+        rgba(0,229,255,.35);
+
+    box-shadow:
+
+        0 0 24px rgba(0,229,255,.12);
+
+}
+
+
+
+/*═══════════════════════════════════════════════
+                    STOP
+═══════════════════════════════════════════════*/
+
+.btn-stop{
+
+    color:#FFB4B4;
+
+    background:
+
+        rgba(239,68,68,.12);
+
+    border:1px solid rgba(239,68,68,.25);
+
+    box-shadow:
+
+        inset 0 1px rgba(255,255,255,.04);
+
+}
+
+
+
+.btn-stop:hover:not(:disabled){
+
+    background:
+
+        linear-gradient(
+
+            135deg,
+
+            #EF4444,
+
+            #DC2626
+
+        );
+
+    color:white;
+
+    border-color:transparent;
+
+    box-shadow:
+
+        0 0 34px rgba(239,68,68,.35);
+
+}
+
+
+
+/*═══════════════════════════════════════════════
+                BUTTON GROUP
+═══════════════════════════════════════════════*/
+
+.sidebar .btn:last-child{
+
+    margin-bottom:0;
+
+}
+
+/*══════════════════════════════════════════════════════
+                    LIVE AI FEED
+══════════════════════════════════════════════════════*/
+
+.feed-area{
+
+    position:relative;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    overflow:hidden;
+
+    border-radius:28px;
+
+    background:
+        radial-gradient(circle at center,#182B52 0%,#0B1225 45%,#050816 100%);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    box-shadow:
+        var(--shadow-lg),
+        inset 0 1px rgba(255,255,255,.05);
+
+}
+
+
+
+/*══════════════════════════════════════════════════════
+                GRID BACKGROUND
+══════════════════════════════════════════════════════*/
+
+.feed-area::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background:
+
+    linear-gradient(
+        rgba(255,255,255,.03) 1px,
+        transparent 1px
+    ),
+
+    linear-gradient(
+        90deg,
+        rgba(255,255,255,.03) 1px,
+        transparent 1px
+    );
+
+    background-size:40px 40px;
+
+    opacity:.45;
+
+}
+
+
+
+/* Animated Glow */
+
+.feed-area::after{
+
+    content:"";
+
+    position:absolute;
+
+    inset:-40%;
+
+    background:
+
+        radial-gradient(
+
+            circle,
+
+            rgba(0,229,255,.08),
+
+            transparent 60%
+
+        );
+
+    animation:feedGlow 10s linear infinite;
+
+    pointer-events:none;
+
+}
+
+
+
+@keyframes feedGlow{
+
+    from{
+
+        transform:
+
+            rotate(0deg)
+
+            scale(1);
+
+    }
+
+    to{
+
+        transform:
+
+            rotate(360deg)
+
+            scale(1.2);
+
+    }
+
+}
+
+
+
+/*══════════════════════════════════════════════════════
+                LIVE IMAGE
+══════════════════════════════════════════════════════*/
+
+.feed-area img{
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:contain;
+
+    display:none;
+
+    position:relative;
+
+    z-index:2;
+
+    transition:.4s;
+
+}
+
+
+
+/*══════════════════════════════════════════════════════
+                PLACEHOLDER
+══════════════════════════════════════════════════════*/
+
+.feed-placeholder{
+
+    position:absolute;
+
+    inset:0;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:16px;
+
+    z-index:2;
+
+    color:var(--text-muted);
+
+}
+
+
+
+.feed-placeholder svg{
+
+    width:74px;
+
+    height:74px;
+
+    opacity:.55;
+
+}
+
+
+
+.feed-placeholder .tip{
+
+    font-family:var(--font-display);
+
+    font-size:22px;
+
+    font-weight:700;
+
+    color:var(--text);
+
+}
+
+
+
+.feed-placeholder .tip2{
+
+    font-size:13px;
+
+    color:var(--text-muted);
+
+}
+
+
+
+/*══════════════════════════════════════════════════════
+                CORNERS
+══════════════════════════════════════════════════════*/
+
+.corner{
+
+    position:absolute;
+
+    width:34px;
+
+    height:34px;
+
+    border-color:var(--cyan);
+
+    opacity:.85;
+
+    z-index:4;
+
+    transition:.35s;
+
+    box-shadow:
+
+        0 0 16px rgba(0,229,255,.35);
+
+}
+
+.tl{
+
+    top:18px;
+
+    left:18px;
+
+    border-top:3px solid;
+
+    border-left:3px solid;
+
+}
+
+.tr{
+
+    top:18px;
+
+    right:18px;
+
+    border-top:3px solid;
+
+    border-right:3px solid;
+
+}
+
+.bl{
+
+    bottom:18px;
+
+    left:18px;
+
+    border-bottom:3px solid;
+
+    border-left:3px solid;
+
+}
+
+.br{
+
+    bottom:18px;
+
+    right:18px;
+
+    border-bottom:3px solid;
+
+    border-right:3px solid;
+
+}
+
+
+
+/*══════════════════════════════════════════════════════
+                ALERT FRAME
+══════════════════════════════════════════════════════*/
+
+.alert-ring{
+
+    position:absolute;
+
+    inset:0;
+
+    border-radius:28px;
+
+    border:4px solid var(--danger);
+
+    opacity:0;
+
+    pointer-events:none;
+
+    z-index:5;
+
+}
+
+
+
+.alert-ring.on{
+
+    animation:dangerPulse .8s infinite;
+
+}
+
+
+
+@keyframes dangerPulse{
+
+    0%{
+
+        opacity:.2;
+
+        box-shadow:0 0 10px var(--danger);
+
+    }
+
+    50%{
+
+        opacity:1;
+
+        box-shadow:0 0 45px var(--danger);
+
+    }
+
+    100%{
+
+        opacity:.2;
+
+        box-shadow:0 0 10px var(--danger);
+
+    }
+
+}
+
+
+
+/*══════════════════════════════════════════════════════
+                SCANNING LINE
+══════════════════════════════════════════════════════*/
+
+.scan-line{
+
+    position:absolute;
+
+    left:0;
+
+    right:0;
+
+    top:-5%;
+
+    height:4px;
+
+    opacity:0;
+
+    z-index:6;
+
+    background:
+
+        linear-gradient(
+
+            90deg,
+
+            transparent,
+
+            var(--scan-color),
+
+            white,
+
+            var(--scan-color),
+
+            transparent
+
+        );
+
+    box-shadow:
+
+        0 0 20px var(--scan-color),
+
+        0 0 50px var(--scan-color);
+
+}
+
+
+
+.scan-line.on{
+
+    animation:scanBeam 3.5s linear infinite;
+
+}
+
+
+
+@keyframes scanBeam{
+
+    0%{
+
+        top:-5%;
+
+        opacity:0;
+
+    }
+
+    8%{
+
+        opacity:1;
+
+    }
+
+    50%{
+
+        opacity:1;
+
+    }
+
+    100%{
+
+        top:105%;
+
+        opacity:0;
+
+    }
+
+}
+
+
+
+/*══════════════════════════════════════════════════════
+                LIVE STATUS BAR
+══════════════════════════════════════════════════════*/
+
+.feed-bar{
+
+    position:absolute;
+
+    left:20px;
+
+    right:20px;
+
+    bottom:20px;
+
+    display:none;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:14px 20px;
+
+    border-radius:18px;
+
+    background:
+
+        rgba(12,18,35,.75);
+
+    backdrop-filter:blur(18px);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    z-index:7;
+
+}
+
+
+
+.feed-bar.show{
+
+    display:flex;
+
+}
+
+
+
+.feed-fps{
+
+    font-family:var(--font-mono);
+
+    font-size:15px;
+
+    font-weight:700;
+
+}
+
+
+
+.fps-good{
+
+    color:#22C55E;
+
+}
+
+.fps-ok{
+
+    color:#F59E0B;
+
+}
+
+.fps-low{
+
+    color:#EF4444;
+
+}
+
+
+
+.feed-res{
+
+    font-size:12px;
+
+    color:var(--text-muted);
+
+    font-family:var(--font-mono);
+
+}
+
+
+
+.feed-phase{
+
+    font-family:var(--font-display);
+
+    font-size:12px;
+
+    color:var(--cyan);
+
+    font-weight:700;
+
+    letter-spacing:.18em;
+
+    text-transform:uppercase;
+
+}
+/* RIGHT PANEL */
+.right{background:var(--paper);border-left:1px solid var(--hairline);padding:20px 16px;overflow-y:auto;display:flex;flex-direction:column;gap:18px}
+.r-title{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--slate-soft)}
+
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.stat-card{background:var(--mist);border:1px solid var(--hairline);border-radius:var(--r-md);padding:11px 12px}
+.stat-ico{width:22px;height:22px;display:flex;align-items:center;justify-content:center;color:var(--slate-soft);margin-bottom:7px}
+.stat-val{font-family:var(--font-mono);font-size:21px;font-weight:600;color:var(--ink);line-height:1}
+.stat-val.red{color:var(--danger)}
+.stat-lbl{font-size:10.5px;color:var(--slate-soft);margin-top:4px;display:flex;align-items:center;gap:4px}
+.stat-tag{font-weight:700}
+.tag-good{color:var(--ok)} .tag-ok{color:var(--amber)} .tag-low{color:var(--danger)}
+
+.session-row{display:none;align-items:center;justify-content:space-between;padding:9px 12px;background:var(--mist);border:1px solid var(--hairline);border-radius:var(--r-md);font-size:11px;color:var(--slate)}
+.session-row.show{display:flex}
+.session-time{font-family:var(--font-mono);font-weight:600;color:var(--ink);font-size:12.5px}
+
+.status-box{border-radius:var(--r-md);padding:12px 13px;border:1.5px solid}
+.status-box.ok{background:var(--ok-soft);border-color:var(--ok-border)}
+.status-box.alert{background:var(--danger-soft);border-color:var(--danger-border);display:none}
+.status-box.alert.show{display:block}
+.status-title{font-size:12px;font-weight:700;display:flex;align-items:center;gap:6px;margin-bottom:4px}
+.status-title.ok-t{color:#15803d}
+.status-title.alert-t{color:#b91c1c}
+.sdot{width:7px;height:7px;border-radius:50%;background:currentColor;flex-shrink:0}
+.status-box.alert .sdot{animation:blink .8s infinite}
+.status-text{font-size:12px;color:var(--slate);line-height:1.5}
+
+.log-box{flex:1;min-height:100px;background:var(--mist);border:1px solid var(--hairline);border-radius:var(--r-md);padding:8px;overflow-y:auto;font-family:var(--font-mono);font-size:10.5px}
+.log-row{display:flex;gap:7px;padding:5px 6px;border-left:2px solid var(--hairline-strong);margin-bottom:2px;border-radius:0 6px 6px 0}
+.log-row.lg-alert{border-left-color:var(--danger);background:var(--danger-soft)}
+.log-row.lg-info{border-left-color:var(--ok)}
+.log-t{color:var(--slate-soft);flex-shrink:0}
+.log-m{color:var(--slate);line-height:1.5}
+.log-m.lg-alert{color:#b91c1c;font-weight:700}
+.log-m.lg-info{color:#15803d}
+
+/* TOAST */
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--ink);color:#fff;padding:10px 20px;border-radius:10px;font-size:13px;font-weight:500;opacity:0;pointer-events:none;transition:all .25s;z-index:999;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+@media (max-width:980px){
+  .layout{grid-template-columns:1fr;height:auto}
+  .sidebar,.right{border:none;border-bottom:1px solid var(--hairline)}
+  .feed-area{min-height:55vh}
+}
+@media (prefers-reduced-motion: reduce){
+  .scan-line{display:none}
+  .badge.live .badge-dot,.alert-ring.on,.status-box.alert .sdot{animation:none}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-logo">
+    <div class="logo-box">SKM</div>
+    <div>
+      <div class="nav-name">VisionGuard AI</div>
+      <div class="nav-sub">Intelligent Video Analytics Platform</div>
+    </div>
+  </div>
+  <div class="nav-right">
+    <div class="clock" id="clock">00:00:00</div>
+    <div class="badge" id="badge"><div class="badge-dot"></div><span id="badge-t">WITHOUT NET</span></div>
+  </div>
+</nav>
+
+<!-- LAYOUT -->
+<div class="layout">
+
+  <!-- LEFT -->
+  <aside class="sidebar">
+
+    <div>
+      <div class="sec-title">Detection Phase</div>
+      <div class="dropdown" id="phase-dropdown">
+        <button class="dropdown-trigger" id="phase-trigger" onclick="toggleDropdown('phase')" aria-haspopup="listbox" aria-expanded="false" aria-controls="phase-panel">
+          <span class="dd-icon-box" id="phase-trigger-icon"></span>
+          <span class="dd-trigger-text">
+            <span class="dd-trigger-label" id="phase-trigger-label"></span>
+            <span class="dd-trigger-sub" id="phase-trigger-sub"></span>
+          </span>
+          <span class="dd-chevron"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="5 8 12 15 19 8"/></svg></span>
+        </button>
+        <div class="dropdown-panel" id="phase-panel" role="listbox"></div>
+      </div>
+    </div>
+
+    <div>
+      <div class="sec-title">Camera Source</div>
+      <div class="dropdown" id="camera-dropdown">
+        <button class="dropdown-trigger" id="camera-trigger" onclick="toggleDropdown('camera')" aria-haspopup="listbox" aria-expanded="false" aria-controls="camera-panel">
+          <span class="dd-icon-box tone-violet" id="camera-trigger-icon"></span>
+          <span class="dd-trigger-text">
+            <span class="dd-trigger-label" id="camera-trigger-label"></span>
+            <span class="dd-trigger-sub" id="camera-trigger-sub"></span>
+          </span>
+          <span class="dd-chevron"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="5 8 12 15 19 8"/></svg></span>
+        </button>
+        <div class="dropdown-panel" id="camera-panel" role="listbox"></div>
+      </div>
+    </div>
+
+    <div>
+      <div class="sec-title">Controls</div>
+      <button class="btn btn-start" id="btn-start" onclick="doStart()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4l13 8-13 8z"/></svg>
+        Start Detection
+      </button>
+      <button class="btn btn-shot" id="btn-shot" onclick="doShot()" disabled>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="7" width="17" height="12" rx="2"/><path d="M8 7l1.4-2.2h5.2L16 7"/><circle cx="12" cy="13" r="3.4"/></svg>
+        Save Screenshot
+      </button>
+      <button class="btn btn-stop" id="btn-stop" onclick="doStop()" disabled>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><rect x="5" y="5" width="14" height="14" rx="2"/></svg>
+        Stop
+      </button>
+    </div>
+
+  </aside>
+
+  <!-- FEED -->
+  <div class="feed-area" id="feed-area">
+    <div class="feed-placeholder" id="placeholder">
+      <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="7" width="17" height="12" rx="2"/><path d="M8 7l1.4-2.2h5.2L16 7"/><circle cx="12" cy="13" r="3.4"/><line x1="2.5" y1="2.5" x2="21.5" y2="21.5" stroke="rgba(255,255,255,.4)"/></svg>
+      <div class="tip">Camera not started</div>
+      <div class="tip2">Choose a phase and camera, then press Start</div>
+    </div>
+    <img id="feed" src="" alt="Live feed">
+    <div class="corner tl"></div>
+    <div class="corner tr"></div>
+    <div class="corner bl"></div>
+    <div class="corner br"></div>
+    <div class="scan-line" id="scan-line"></div>
+    <div class="alert-ring" id="ring"></div>
+    <div class="feed-bar" id="feed-bar">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="font-size:11px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.04em">Live</span>
+        <span class="feed-fps fps-ok" id="feed-fps">0.0 fps</span>
+        <span class="feed-res">640×480</span>
+      </div>
+      <span class="feed-phase" id="feed-phase">Phase 1</span>
+    </div>
+  </div>
+
+  <!-- RIGHT -->
+  <aside class="right">
+
+    <div class="r-title">Live Stats</div>
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3 5 13h5l-1 8 9-11h-5z"/></svg></div>
+        <div class="stat-val" id="s-fps">0.0</div>
+        <div class="stat-lbl">FPS <span class="stat-tag" id="s-fps-tag"></span></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.4"/><path d="M5.5 20c0-3.8 3-6.4 6.5-6.4s6.5 2.6 6.5 6.4"/></svg></div>
+        <div class="stat-val" id="s-per">0</div>
+        <div class="stat-lbl">Persons</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 19 7 19 17 12 21 5 17 5 7 Z"/><line x1="12" y1="11" x2="12" y2="21"/><line x1="5" y1="7" x2="12" y2="11"/><line x1="19" y1="7" x2="12" y2="11"/></svg></div>
+        <div class="stat-val" id="s-obj">0</div>
+        <div class="stat-lbl">Objects</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16v-5a6 6 0 0112 0v5"/><path d="M4.5 16h15"/><path d="M10 19a2 2 0 004 0"/></svg></div>
+        <div class="stat-val red" id="s-alr">0</div>
+        <div class="stat-lbl">Alerts</div>
+      </div>
+    </div>
+
+    <div class="session-row" id="session-row">
+      <span>Session</span>
+      <span class="session-time" id="session-time">00:00</span>
+    </div>
+
+    <div class="r-title">System Status</div>
+    <div class="status-box ok">
+      <div class="status-title ok-t"><div class="sdot"></div>All Clear</div>
+      <div class="status-text">No crowd detected. System monitoring.</div>
+    </div>
+    <div class="status-box alert" id="alert-box">
+      <div class="status-title alert-t"><div class="sdot"></div>Crowd Alert Active</div>
+      <div class="status-text" id="alert-txt">Threshold exceeded</div>
+    </div>
+
+    <div class="r-title">Event Log</div>
+    <div class="log-box" id="log"></div>
+
+  </aside>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  // ── Icon set (shared by dropdown triggers + option panels) ────────────────
+  const ICONS = {
+    search : '<circle cx="10" cy="10" r="6"/><line x1="20" y1="20" x2="14.5" y2="14.5"/>',
+    person : '<circle cx="12" cy="8" r="3.4"/><path d="M5.5 20c0-3.8 3-6.4 6.5-6.4s6.5 2.6 6.5 6.4"/>',
+    siren  : '<path d="M12 4 21 19 3 19 Z" stroke-linejoin="round"/><line x1="12" y1="9.5" x2="12" y2="13.5"/><circle cx="12" cy="16.3" r="0.9" fill="currentColor" stroke="none"/>',
+    laptop : '<rect x="4" y="5" width="16" height="10" rx="1.4"/><line x1="2.5" y1="18.2" x2="21.5" y2="18.2"/>',
+    camera : '<rect x="3.5" y="7" width="17" height="12" rx="2"/><path d="M8 7l1.4-2.2h5.2L16 7"/><circle cx="12" cy="13" r="3.4"/>',
+    check  : '<polyline points="4 11 9 16 18 6"/>',
+  };
+  function svg(name, size){
+    return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${ICONS[name]}</svg>`;
+  }
+
+  const TONE_HEX = { blue:'#3a4bff', green:'#1f9d55', red:'#e0312b' };
+
+  const PHASES = [
+  {
+    id: 1,
+    tone: 'blue',
+    icon: 'search',
+    name: 'Object Detection',
+    desc: 'Real-time detection of 80 COCO object categories.'
+  },
+  {
+    id: 2,
+    tone: 'green',
+    icon: 'person',
+    name: 'Person Detection',
+    desc: 'Live identification and counting of detected persons.'
+  },
+  {
+    id: 3,
+    tone: 'red',
+    icon: 'siren',
+    name: 'Crowd Management',
+    desc: 'Issues visual and audio alerts when the crowd exceeds 3 persons.'
+  }
+];
+
+const CAMERAS = [
+  {
+    id: 0,
+    icon: 'laptop',
+    name: 'Integrated Camera',
+    desc: 'Primary system camera for real-time AI monitoring.'
+  },
+  {
+    id: 1,
+    icon: 'camera',
+    name: 'USB Camera',
+    desc: 'External camera for enhanced surveillance coverage.'
+  }
+];
+
+  let running=false, phase=1, cam=0, poll=null, prevAlerts=0, sessionTimer=null, sessionStart=null;
+
+  // ── Build dropdown option panels (once) ────────────────────────────────────
+  function buildPanel(containerId, items, selectFn, toned){
+    const el=document.getElementById(containerId);
+    el.innerHTML = items.map(it=>`
+      <button class="dd-option" data-id="${it.id}" role="option" aria-selected="false" onclick="${selectFn}(${it.id})">
+        <span class="dd-icon-box ${toned ? 'tone-'+it.tone : 'tone-violet'}">${svg(it.icon,16)}</span>
+        <span class="dd-opt-text"><span class="dd-opt-n">${it.name}</span><span class="dd-opt-d">${it.desc}</span></span>
+        <span class="dd-check">${svg('check',13)}</span>
+      </button>`).join('');
+  }
+  buildPanel('phase-panel', PHASES, 'selPhase', true);
+  buildPanel('camera-panel', CAMERAS, 'selCam', false);
+
+  // ── Dropdown open/close ─────────────────────────────────────────────────────
+  function toggleDropdown(name){
+    const dd = document.getElementById(name+'-dropdown');
+    const willOpen = !dd.classList.contains('open');
+    document.querySelectorAll('.dropdown.open').forEach(d=>{
+      d.classList.remove('open');
+      d.querySelector('.dropdown-trigger').setAttribute('aria-expanded','false');
+    });
+    if(willOpen){
+      dd.classList.add('open');
+      dd.querySelector('.dropdown-trigger').setAttribute('aria-expanded','true');
+    }
+  }
+  document.addEventListener('click', e=>{
+    if(!e.target.closest('.dropdown')){
+      document.querySelectorAll('.dropdown.open').forEach(d=>{
+        d.classList.remove('open');
+        d.querySelector('.dropdown-trigger').setAttribute('aria-expanded','false');
+      });
+    }
+  });
+  document.addEventListener('keydown', e=>{
+    if(e.key==='Escape'){
+      document.querySelectorAll('.dropdown.open').forEach(d=>{
+        d.classList.remove('open');
+        d.querySelector('.dropdown-trigger').setAttribute('aria-expanded','false');
+      });
+    }
+  });
+
+  // Clock
+  setInterval(()=>{document.getElementById('clock').textContent=new Date().toTimeString().slice(0,8)},1000);
+
+  // Log
+  function addLog(msg,type=''){
+    const b=document.getElementById('log');
+    const r=document.createElement('div'); r.className='log-row'+(type?' '+type:'');
+    const t=new Date().toTimeString().slice(0,5);
+    r.innerHTML=`<span class="log-t">${t}</span><span class="log-m ${type}">${msg}</span>`;
+    b.appendChild(r); b.scrollTop=b.scrollHeight;
+    if(b.children.length>80) b.removeChild(b.firstChild);
+  }
+
+  // Toast
+  function showToast(m){
+    const t=document.getElementById('toast'); t.textContent=m;
+    t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2500);
+  }
+
+  // ── Phase selection ──────────────────────────────────────────────────────────
+  function selPhase(p){
+    phase=p;
+    const item = PHASES.find(x=>x.id===p);
+    document.getElementById('phase-trigger-icon').className = 'dd-icon-box tone-'+item.tone;
+    document.getElementById('phase-trigger-icon').innerHTML = svg(item.icon,18);
+    document.getElementById('phase-trigger-label').textContent = item.name;
+    document.getElementById('phase-trigger-sub').textContent = item.desc;
+    document.querySelectorAll('#phase-panel .dd-option').forEach(o=>{
+      const active = Number(o.dataset.id)===p;
+      o.classList.toggle('active', active);
+      o.setAttribute('aria-selected', active);
+    });
+    document.documentElement.style.setProperty('--scan-color', TONE_HEX[item.tone]);
+    document.getElementById('feed-phase').textContent = item.name;
+    toggleDropdown('phase');
+    if(running){
+      fetch('/phase',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({phase:p})});
+      addLog('Switched to '+item.name,'lg-info');
+    }
+  }
+
+  // ── Camera selection ─────────────────────────────────────────────────────────
+  function selCam(i){
+    cam=i;
+    const item = CAMERAS.find(x=>x.id===i);
+    document.getElementById('camera-trigger-icon').innerHTML = svg(item.icon,18);
+    document.getElementById('camera-trigger-label').textContent = item.name;
+    document.getElementById('camera-trigger-sub').textContent = item.desc;
+    document.querySelectorAll('#camera-panel .dd-option').forEach(o=>{
+      const active = Number(o.dataset.id)===i;
+      o.classList.toggle('active', active);
+      o.setAttribute('aria-selected', active);
+    });
+    toggleDropdown('camera');
+    if(running){
+      fetch('/camera',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({camera:i})});
+      addLog('Camera → '+item.name,'lg-info');
+    }
+  }
+
+  // ── Session uptime ───────────────────────────────────────────────────────────
+  function startSession(){
+    sessionStart = Date.now();
+    document.getElementById('session-row').classList.add('show');
+    sessionTimer = setInterval(()=>{
+      const s = Math.floor((Date.now()-sessionStart)/1000);
+      const mm = String(Math.floor(s/60)).padStart(2,'0');
+      const ss = String(s%60).padStart(2,'0');
+      document.getElementById('session-time').textContent = mm+':'+ss;
+    },1000);
+  }
+  function stopSession(){
+    if(sessionTimer){clearInterval(sessionTimer); sessionTimer=null;}
+    document.getElementById('session-row').classList.remove('show');
+    document.getElementById('session-time').textContent='00:00';
+  }
+
+  // ── Start / Stop / Screenshot ────────────────────────────────────────────────
+  function doStart(){
+    fetch('/start',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({camera:cam,phase:phase})
+    }).then(r=>r.json()).then(()=>{
+      running=true; prevAlerts=0;
+      const f=document.getElementById('feed');
+      f.src='/video_feed?t='+Date.now(); f.style.display='block';
+      document.getElementById('placeholder').style.display='none';
+      document.getElementById('feed-bar').classList.add('show');
+      document.getElementById('scan-line').classList.add('on');
+      document.getElementById('badge').className='badge live';
+      document.getElementById('badge-t').textContent='LIVE';
+      document.getElementById('btn-start').disabled=true;
+      document.getElementById('btn-stop').disabled=false;
+      document.getElementById('btn-shot').disabled=false;
+      const camName = CAMERAS.find(c=>c.id===cam).name;
+      const phaseName = PHASES.find(p=>p.id===phase).name;
+      addLog('Started · '+phaseName+' · '+camName,'lg-info');
+      startSession();
+      if(poll) clearInterval(poll);
+      poll=setInterval(doPoll,700);
+    });
+  }
+
+  function doStop(){
+    fetch('/stop',{method:'POST'}).then(()=>{
+      running=false;
+      if(poll){clearInterval(poll);poll=null;}
+      const f=document.getElementById('feed');
+      f.style.display='none'; f.src='';
+      document.getElementById('placeholder').style.display='flex';
+      document.getElementById('feed-bar').classList.remove('show');
+      document.getElementById('scan-line').classList.remove('on');
+      document.getElementById('badge').className='badge';
+      document.getElementById('badge-t').textContent='OFFLINE';
+      document.getElementById('ring').classList.remove('on');
+      document.getElementById('alert-box').classList.remove('show');
+      document.getElementById('btn-start').disabled=false;
+      document.getElementById('btn-stop').disabled=true;
+      document.getElementById('btn-shot').disabled=true;
+      stopSession();
+      addLog('Detection stopped');
+    });
+  }
+
+  function doShot(){
+    fetch('/screenshot',{method:'POST'}).then(r=>r.json()).then(d=>{
+      if(d.ok){showToast('Saved: '+d.file); addLog('Screenshot → '+d.file,'lg-info');}
+      else showToast('Start detection first');
+    });
+  }
+
+  // ── FPS quality tagging ──────────────────────────────────────────────────────
+  function fpsClass(v){
+    if(v>=20) return {cls:'fps-good', tag:'Good', tone:'tag-good'};
+    if(v>=10) return {cls:'fps-ok',   tag:'Fair', tone:'tag-ok'};
+    return        {cls:'fps-low',  tag:'Low',  tone:'tag-low'};
+  }
+
+  // ── Poll status ──────────────────────────────────────────────────────────────
+  function doPoll(){
+    fetch('/status').then(r=>r.json()).then(d=>{
+      document.getElementById('s-fps').textContent=d.fps;
+      document.getElementById('s-per').textContent=d.persons;
+      document.getElementById('s-obj').textContent=d.objects;
+      document.getElementById('s-alr').textContent=d.total_alerts;
+
+      const q = fpsClass(d.fps);
+      const ff = document.getElementById('feed-fps');
+      ff.textContent = d.fps+' fps';
+      ff.className = 'feed-fps '+q.cls;
+      const tag = document.getElementById('s-fps-tag');
+      tag.textContent = '· '+q.tag;
+      tag.className = 'stat-tag '+q.tone;
+
+      // Alert state
+      const ring=document.getElementById('ring');
+      const abox=document.getElementById('alert-box');
+      if(d.alert){
+        ring.classList.add('on'); abox.classList.add('show');
+        document.getElementById('alert-txt').textContent =
+    `${d.persons} persons detected — Threshold: >${ALERT_THRESHOLD}`;        document.getElementById('s-per').className='stat-val red';
+      } else {
+        ring.classList.remove('on'); abox.classList.remove('show');
+        document.getElementById('s-per').className='stat-val';
+      }
+
+      // New alert log
+      if(d.total_alerts>prevAlerts){
+        prevAlerts=d.total_alerts;
+        addLog('ALERT #'+d.total_alerts+' — '+d.persons+' persons at '+d.last_alert,'lg-alert');
+        showToast('Crowd alert — '+d.persons+' persons detected');
+      }
+    }).catch(()=>{});
+  }
+
+  // Init
+  selPhase(1);
+  selCam(0);
+  addLog('System ready');
+</script>
+</body>
+</html>
