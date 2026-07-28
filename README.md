@@ -1,33 +1,63 @@
 # 🛡️ VisionGuard AI
+
 ### Intelligent Real-Time Object Detection, Person Counting & Crowd Monitoring System using YOLOv8
 
 <p align="center">
 
-![Python](https://img.shields.io/badge/Python-3.10%2B-blue?style=for-the-badge&logo=python)
+![Python](https://img.shields.io/badge/Python-3.10+-blue?style=for-the-badge&logo=python)
 ![YOLOv8](https://img.shields.io/badge/YOLOv8-Ultralytics-red?style=for-the-badge)
 ![OpenCV](https://img.shields.io/badge/OpenCV-Computer%20Vision-green?style=for-the-badge&logo=opencv)
-![Flask](https://img.shields.io/badge/Flask-Web%20UI-black?style=for-the-badge&logo=flask)
+![Flask](https://img.shields.io/badge/Flask-Web%20Dashboard-black?style=for-the-badge&logo=flask)
 ![License](https://img.shields.io/badge/License-MIT-orange?style=for-the-badge)
 
 </p>
 
 ---
-To Start This System Make Sure These Commands running on the terminal
 
-PS D:\VisionGuard AI> (Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned) ; (& "d:\VisionGuard AI\venv\Scripts\Activate.ps1")
-(venv) PS D:\VisionGuard AI>  py frontend\app.py
+# ⚡ Quick Start
+
+Run the following commands to launch **VisionGuard AI** locally.
+
+### 1️⃣ Open Project Folder
+
+```powershell
+cd "D:\VisionGuard AI"
+```
+
+### 2️⃣ Activate Virtual Environment (PowerShell)
+
+```powershell
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned
+.\venv\Scripts\Activate.ps1
+```
+
+### If using Command Prompt (CMD)
+
+```cmd
+venv\Scripts\activate
+```
+
+### 3️⃣ Start the Application
+
+```powershell
+py frontend\app.py
+```
+
+### 4️⃣ Open in Browser
+
+```
+http://127.0.0.1:5000
+```
 
 ---
 
----
+# 📌 Overview
 
-## 📌 Overview
+VisionGuard AI is an intelligent real-time surveillance system powered by **YOLOv8**, **OpenCV**, **Flask**, and **Python**.
 
-**VisionGuard AI** is a real-time computer vision surveillance system built using **YOLOv8**, **Python**, **OpenCV**, and **Flask**.
+The application detects multiple objects, counts people in real time, and monitors crowd density. When the number of detected people exceeds a configurable threshold, the system automatically triggers alerts, captures screenshots, and stores event logs.
 
-The application detects multiple objects, counts people in real time, and intelligently monitors crowd density. When the number of detected people exceeds a predefined threshold, the system automatically triggers an alert, captures evidence, and stores event logs.
-
-The project demonstrates practical applications of Artificial Intelligence in:
+This project demonstrates practical applications of Artificial Intelligence in:
 
 - Smart Surveillance
 - Public Safety
@@ -37,47 +67,64 @@ The project demonstrates practical applications of Artificial Intelligence in:
 
 ---
 
+# 🖥️ UI / UX Screenshot
+
+<p align="center">
+
+<img src="screenshots/UI%20UX%20ScreenShot.png" alt="VisionGuard AI Dashboard" width="100%">
+
+</p>
+
+> **Modern AI-powered dashboard featuring real-time object detection, person counting, crowd monitoring, live statistics, event logging, and an intuitive dark-themed interface.**
+
+---
+
 # 🚀 Key Features
 
-### 🎯 Phase 1 — Object Detection
-- Detects all COCO dataset objects (80 classes)
+## 🎯 Phase 1 — Object Detection
+
+- Detects all 80 COCO dataset object classes
 - Real-time webcam detection
-- High FPS inference using YOLOv8
-- Displays confidence score and bounding boxes
+- High FPS YOLOv8 inference
+- Confidence score display
+- Bounding box visualization
 
 ---
 
-### 👤 Phase 2 — Person Detection
+## 👤 Phase 2 — Person Detection
+
 - Detects only human beings
 - Live person counting
-- Accurate people tracking
-- Optimized for real-time monitoring
+- Optimized real-time performance
+- Accurate people monitoring
 
 ---
 
-### 🚨 Phase 3 — Crowd Alert System
+## 🚨 Phase 3 — Crowd Alert System
 
-If the detected number of people exceeds a configurable limit:
+When the detected number of people exceeds the configured limit:
 
-- 🔴 Alert is triggered
-- 🔊 Beep sound is played
-- 📸 Screenshot is automatically captured
-- 📝 Event is stored inside CSV log
-- ⚡ Live alert notification appears on screen
+- 🔴 Crowd alert notification
+- 🔊 Audio beep alert
+- 📸 Automatic screenshot capture
+- 📝 CSV event logging
+- ⚡ Live visual warning
 
 ---
 
 # 🖥️ Modern Dashboard
 
-The project includes a responsive Flask-based dashboard featuring:
+The dashboard includes:
 
-- Beautiful modern UI
-- Live camera streaming
+- Modern responsive UI
+- Live webcam streaming
+- Detection phase switching
+- Camera selection
 - Real-time statistics
-- Phase switching
-- Animated interface
-- Professional typography
-- Dark theme
+- FPS monitoring
+- Event logs
+- Crowd alert notifications
+- Dark professional theme
 
 ---
 
@@ -114,7 +161,7 @@ The project includes a responsive Flask-based dashboard featuring:
 # 📂 Project Structure
 
 ```
-VisionGuard AI/
+VisionGuard-AI/
 │
 ├── frontend/
 │   ├── app.py
@@ -122,12 +169,14 @@ VisionGuard AI/
 │   └── static/
 │
 ├── models/
-│   ├── yolov8n.pt
-│   └── yolov8n.onnx
+│   └── yolov8n.pt
 │
 ├── outputs/
 │   ├── crowd_log.csv
-│   └── Alert Images
+│   └── Alert Images/
+│
+├── screenshots/
+│   └── UI UX ScreenShot.png
 │
 ├── src/
 │   ├── phase1_object_detection.py
@@ -146,10 +195,10 @@ VisionGuard AI/
 |------------|---------|
 | Python | Backend Development |
 | YOLOv8 | Object Detection |
-| OpenCV | Image Processing |
+| OpenCV | Computer Vision |
 | Flask | Web Dashboard |
-| NumPy | Numerical Operations |
-| Pillow | Image Handling |
+| NumPy | Numerical Computing |
+| Pillow | Image Processing |
 | HTML5 | Frontend |
 | CSS3 | Styling |
 | JavaScript | Interactive UI |
@@ -158,17 +207,16 @@ VisionGuard AI/
 
 # ⚙️ Installation
 
-## 1 Clone Repository
+## 1. Clone Repository
 
 ```bash
-git clone https://github.com/yourusername/VisionGuard-AI.git
-
+git clone https://github.com/SUMEETKUMARMONTI/VisionGuard-AI.git
 cd VisionGuard-AI
 ```
 
 ---
 
-## 2 Create Virtual Environment
+## 2. Create Virtual Environment
 
 ```bash
 python -m venv venv
@@ -176,7 +224,7 @@ python -m venv venv
 
 ---
 
-## 3 Activate Environment
+## 3. Activate Environment
 
 ### Windows
 
@@ -192,7 +240,7 @@ source venv/bin/activate
 
 ---
 
-## 4 Install PyTorch (CPU)
+## 4. Install PyTorch (CPU)
 
 ```bash
 pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
@@ -200,7 +248,7 @@ pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
 
 ---
 
-## 5 Install Dependencies
+## 5. Install Dependencies
 
 ```bash
 pip install -r requirements.txt
@@ -208,13 +256,13 @@ pip install -r requirements.txt
 
 ---
 
-# ▶️ Run Application
+# ▶️ Run the Application
 
 ```bash
 python -m frontend.app
 ```
 
-Open browser:
+Open your browser:
 
 ```
 http://127.0.0.1:5000
@@ -222,7 +270,7 @@ http://127.0.0.1:5000
 
 ---
 
-# 🎮 Workflow
+# 🎮 Application Workflow
 
 ```
 Start Application
@@ -240,22 +288,22 @@ Run Live Detection
 Display Results
         │
         ▼
-If Crowd Limit Crossed
+If Crowd Limit Exceeded
         │
         ▼
-Alert + Screenshot + Log
+Alert + Screenshot + Event Log
 ```
 
 ---
 
-# 📊 Output
+# 📊 Generated Outputs
 
 The system automatically generates:
 
-- 📸 Alert Images
-- 📝 Crowd Logs (CSV)
-- 📈 Live Detection Statistics
-- 🚨 Alert Notifications
+- 📸 Alert screenshots
+- 📝 Crowd event logs (CSV)
+- 📈 Live detection statistics
+- 🚨 Crowd alert notifications
 
 ---
 
@@ -267,7 +315,7 @@ The system automatically generates:
 - Shopping Malls
 - Schools & Universities
 - Industrial Safety
-- Stadium Crowd Monitoring
+- Stadium Monitoring
 - Public Events
 - Office Security
 
@@ -277,16 +325,16 @@ The system automatically generates:
 
 - Face Recognition
 - Multi-camera Support
-- Object Tracking (ByteTrack/DeepSORT)
-- Email & SMS Alerts
-- WhatsApp Notifications
+- DeepSORT / ByteTrack Integration
+- Email Notifications
+- WhatsApp Alerts
 - Cloud Deployment
-- Mobile App Integration
-- Database Support
+- Mobile Application
+- Database Integration
 - Heatmap Analytics
-- GPU Acceleration
+- GPU Optimization
 - REST API
-- Docker Deployment
+- Docker Support
 
 ---
 
@@ -295,6 +343,7 @@ The system automatically generates:
 | Feature | Status |
 |---------|--------|
 | Real-Time Detection | ✅ |
+| Object Detection | ✅ |
 | Person Counting | ✅ |
 | Crowd Alert | ✅ |
 | Screenshot Capture | ✅ |
@@ -304,45 +353,45 @@ The system automatically generates:
 
 ---
 
-# 🏆 Highlights
+# 🏆 Project Highlights
 
-- Real-time AI Surveillance System
-- Multi-phase Detection Pipeline
-- Professional Dashboard
-- Automated Crowd Alerts
-- Evidence Capture
+- Intelligent AI Surveillance System
+- Three Detection Phases
+- Professional Dashboard UI
+- Automated Crowd Alert System
+- Screenshot Evidence Capture
 - Event Logging
 - Modular Architecture
-- Clean Code Structure
+- Clean & Maintainable Code
 - Easily Extendable
 
 ---
 
 # 👨‍💻 Skills Demonstrated
 
-This project showcases expertise in:
+This project demonstrates knowledge of:
 
 - Artificial Intelligence
 - Computer Vision
 - Deep Learning
 - Object Detection
+- YOLOv8
 - Python Development
 - Flask Development
 - OpenCV
-- YOLOv8
+- Frontend Development
 - Real-Time Video Processing
 - Software Architecture
-- Frontend Development
 - Problem Solving
 
 ---
 
 # 🤝 Contributing
 
-Contributions are welcome!
+Contributions are welcome.
 
 1. Fork the repository
-2. Create a new feature branch
+2. Create a feature branch
 3. Commit your changes
 4. Push the branch
 5. Open a Pull Request
@@ -355,15 +404,16 @@ This project is licensed under the **MIT License**.
 
 ---
 
-# 👤 Author
+# 👨‍💻 Author
 
 **Software Engineer**
 
-**VisionGuard AI — Intelligent Surveillance Powered by Computer Vision**
+VisionGuard AI — Intelligent Surveillance Powered by Computer Vision
 
 ---
 
-## ⭐ If you found this project useful, consider giving it a Star!
+## ⭐ Support the Project
 
-A ⭐ helps the project gain visibility and motivates future development.
+If you found this project useful, please consider giving it a **Star ⭐** on GitHub.
 
+Your support helps the project reach more developers and motivates future improvements.
